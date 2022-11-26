@@ -6,7 +6,6 @@ EXPOSE 5000
 
 COPY package.json ./
 
-RUN npm install --silent
+RUN npm install --silent && npm install -g nodemon
 
-CMD ["npx", "prisma", "db", "push"]
 CMD ["npm", "run", "dev"]
