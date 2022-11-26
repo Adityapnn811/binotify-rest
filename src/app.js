@@ -1,13 +1,15 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+let createError = require('http-errors');
+let express = require('express');
+let path = require('path');
+let cookieParser = require('cookie-parser');
+let logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+let indexRouter = require('./routes/index');
+let usersRouter = require('./routes/users');
+let loginRouter = require('./routes/login');
+let registerRouter = require('./routes/register');
 
-var app = express();
+const app = express();
 
 // initialize const
 const PORT = process.env.PORT || 3000;
@@ -21,6 +23,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 // put routers here
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/login', loginRouter);
+app.use('/register', registerRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
