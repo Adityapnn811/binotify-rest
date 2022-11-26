@@ -8,6 +8,7 @@ let indexRouter = require('./routes/index');
 let usersRouter = require('./routes/users');
 let loginRouter = require('./routes/login');
 let registerRouter = require('./routes/register');
+let penyanyiRouter = require('./routes/penyanyi');
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/login', loginRouter);
 app.use('/register', registerRouter);
+app.use('/penyanyi', penyanyiRouter);
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
