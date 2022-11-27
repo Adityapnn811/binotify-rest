@@ -28,6 +28,11 @@ app.use('/login', loginRouter);
 app.use('/register', registerRouter);
 app.use('/penyanyi', penyanyiRouter);
 
+app.use((err, req, res, next) => {
+  console.error(err.stack)
+  res.status(500).json({error: err.message})
+})
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 })
