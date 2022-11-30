@@ -6,11 +6,11 @@ const cors = require('cors')
 const logger = require('morgan');
 
 let indexRouter = require('./routes/index');
-let usersRouter = require('./routes/users');
 let loginRouter = require('./routes/login');
 let registerRouter = require('./routes/register');
 let penyanyiRouter = require('./routes/penyanyi');
 let subscriptionRouter = require('./routes/subscription');
+let callbackRouter = require('./routes/callback');
 
 const app = express();
 
@@ -26,11 +26,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // put routers here
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/login', loginRouter);
 app.use('/register', registerRouter);
 app.use('/penyanyi', penyanyiRouter);
 app.use('/subscription', subscriptionRouter);
+app.use('/callback', callbackRouter);
 
 app.use((err, req, res, next) => {
   console.error(err.stack)

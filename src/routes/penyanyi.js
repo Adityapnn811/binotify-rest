@@ -5,9 +5,10 @@ const prisma = require('../prisma');
 const Formatter = require('../utils/formatter');
 const Parser = require('../utils/parser');
 const axios = require('axios')
+const {verifyJWT} = require('../utils/auth')
 
 // Get list penyanyi
-router.get('/', async function(req, res) {
+router.get('/', verifyJWT, async function(req, res) {
     const client = redisClient()
     await client.connect();
     if (await client.exists("list_penyanyi")) {
@@ -93,8 +94,8 @@ router.get('/:user_id/song', async function(req, res) {
 })
 
 // Get lagu punya dia sendiri
-router.get('/song', async function(req, res) {
-    let user_id = 1; // ini nanti diganti sama jwt
+router.get('/song', verifyJWT, async function(req, res) {
+    let user_id = req.userId; // ini nanti diganti sama jwt
     let page = 1
     if (req.query.page) {
         page = parseInt(req.query.page)
