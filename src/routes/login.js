@@ -1,14 +1,20 @@
 let express = require('express');
 let router = express.Router();
 const prisma = require('../prisma');
-const {checkPassword} = require('../utils/auth')
+const {checkPassword, signJWT} = require('../utils/auth')
 
 /* Login. */
 router.post('/', async function(req, res) {
   const {username, password} = req.body;
     const user = await prisma.user.findUnique({
         where: {
-            username
+            username: username
+        }
+    })
+
+    const email = await prisma.user.findUnique({
+        where: {
+            email: username
         }
     })
     // Kalo ada user
@@ -16,12 +22,22 @@ router.post('/', async function(req, res) {
         // Cek password
         const valid = checkPassword(password, user.password);
         if (valid) {
-            // Jika password benar, buat token
-            // const token = jwt.sign({id: user.id}, process.env.JWT_SECRET, {expiresIn: '1d'});
-            return res.status(200).json({data: "Login success"});
-        } 
+            const token = signJWT(user, res)
+            return res.status(200).json({data: "Login success", token: token});
+        }else{
+            return res.status(200).json({data: "Password salah"});
+        }
+    }else if (email){
+        const valid = checkPassword(password, email.password);
+        if (valid) {
+            const token = signJWT(email, res)
+            return res.status(200).json({data: "Login success", token: token});
+        }else{
+            return res.status(200).json({data: "Password salah"});
+        }
+
     }
-    return res.status(401).json({error: "Username/password salah"});
+    return res.status(200).json({data: "No user on database"});
 });
 
 module.exports = router;

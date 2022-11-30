@@ -2,7 +2,7 @@ let express = require('express');
 let router = express.Router();
 const prisma = require('../prisma');
 const {validateEmail, validateUsername} = require('../utils/validation')
-const {hashPassword} = require('../utils/auth')
+const {hashPassword, signJWT} = require('../utils/auth')
 const {redisClient} = require('../redis');
 
 /* Login. */
@@ -46,11 +46,12 @@ router.post('/', async function(req, res) {
         if (!userCreated) {
             return res.status(500).json({error: "User creation failed. Please try again."});
         }
+        const token = signJWT(userCreated, res)
         const client = redisClient()
         await client.connect();
         await client.del("list_penyanyi");
         await client.disconnect();
-        return res.status(201).json({data: userCreated});
+        return res.status(201).json({data: userCreated, token: token});
     }
     return res.status(400).json({error: "Invalid email/username"});
 });
