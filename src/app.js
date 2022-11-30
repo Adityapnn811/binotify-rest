@@ -10,6 +10,7 @@ let usersRouter = require('./routes/users');
 let loginRouter = require('./routes/login');
 let registerRouter = require('./routes/register');
 let penyanyiRouter = require('./routes/penyanyi');
+let subscriptionRouter = require('./routes/subscription');
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.use('/users', usersRouter);
 app.use('/login', loginRouter);
 app.use('/register', registerRouter);
 app.use('/penyanyi', penyanyiRouter);
+app.use('/subscription', subscriptionRouter);
 
 app.use((err, req, res, next) => {
   console.error(err.stack)
