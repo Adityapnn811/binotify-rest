@@ -8,7 +8,7 @@ const axios = require('axios')
 const {verifyJWT} = require('../utils/auth')
 
 // Get list penyanyi
-router.get('/', verifyJWT, async function(req, res) {
+router.get('/', async function(req, res) {
     const client = redisClient()
     await client.connect();
     if (await client.exists("list_penyanyi")) {

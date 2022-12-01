@@ -40,6 +40,7 @@ router.post('/', async function(req, res) {
             }, select: {
                 user_id: true,
                 username: true,
+                isAdmin: true
             }
         })
         // Return error kalo gagal
@@ -49,7 +50,9 @@ router.post('/', async function(req, res) {
         const token = signJWT(userCreated, res)
         const client = redisClient()
         await client.connect();
-        await client.del("list_penyanyi");
+        if (await client.exists("list_penyanyi")) {
+            await client.del("list_penyanyi");
+        }
         await client.disconnect();
         return res.status(201).json({data: userCreated, token: token});
     }

@@ -12,7 +12,7 @@ function checkPassword(password, hash) {
 }
 
 function signJWT(user, res) {  
-    const token = jwt.sign({ id: user.user_id }, jwtSecret, {
+    const token = jwt.sign({ id: user.user_id, is_admin: user.isAdmin }, jwtSecret, {
         algorithm: 'HS256',
     });
     return token
@@ -26,6 +26,7 @@ function verifyJWT(req, res, next) {
     jwt.verify(bearerToken[1], jwtSecret, function(err, decoded) {
         if (err) return res.status(500).json({ auth: false, message: 'Failed to authenticate token.' });
         req.userId = decoded.id;
+        req.isAdmin = decoded.is_admin;
         next();
     });
 }

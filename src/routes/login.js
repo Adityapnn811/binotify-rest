@@ -23,17 +23,27 @@ router.post('/', async function(req, res) {
         const valid = checkPassword(password, user.password);
         if (valid) {
             const token = signJWT(user, res)
-            return res.status(200).json({data: "Login success", token: token});
+            const userData = {
+                user_id: user.user_id,
+                username: user.username,
+                isAdmin: user.isAdmin
+            }
+            return res.status(200).json({data: userData, token: token});
         }else{
-            return res.status(200).json({data: "Password salah"});
+            return res.status(401).json({data: "Password salah"});
         }
     }else if (email){
         const valid = checkPassword(password, email.password);
         if (valid) {
             const token = signJWT(email, res)
-            return res.status(200).json({data: "Login success", token: token});
+            const userData = {
+                user_id: email.user_id,
+                username: email.username,
+                isAdmin: email.isAdmin
+            }
+            return res.status(200).json({data: userData, token: token});
         }else{
-            return res.status(200).json({data: "Password salah"});
+            return res.status(401).json({data: "Password salah"});
         }
 
     }
