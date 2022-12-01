@@ -2,10 +2,11 @@ let express = require('express');
 let router = express.Router();
 const Formatter = require('../utils/formatter');
 const Parser = require('../utils/parser');
-const axios = require('axios')
+const axios = require('axios');
+const { verifyJWT } = require('../utils/auth');
 
 /* GET subscription requests listing. */
-router.get('/', async function(req, res) {
+router.get('/', verifyJWT, async function(req, res) {
     try{
         const url = process.env.SOAP_URL + "/webservice/subscription"
         let payload = {
