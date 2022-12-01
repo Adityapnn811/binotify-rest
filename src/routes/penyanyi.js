@@ -1,6 +1,6 @@
 let express = require('express');
 let router = express.Router();
-const {redisClient} = require('../redis');
+const { redisClient } = require('../redis');
 const prisma = require('../prisma');
 const Formatter = require('../utils/formatter');
 const Parser = require('../utils/parser');
