@@ -20,6 +20,8 @@ router.get('/', async function(req, res) {
             select: {
                 user_id: true,
                 name: true
+            }, where: {
+                isAdmin: false
             }
         });
         await client.set("list_penyanyi", JSON.stringify(penyanyi));
@@ -32,8 +34,8 @@ router.get('/', async function(req, res) {
 router.get('/:user_id/song', async function(req, res) {
     let {user_id} = req.params;
     user_id = parseInt(user_id);
-    let subscriber_id = 1; // Nanti minta data dari bino app
-    // let {subscriber_id} = req.body
+    // let subscriber_id = 1;
+    let {subscriber_id} = req.body
     // Validasi melalui SOAP
     try{
         const url = process.env.SOAP_URL + "/webservice/subscription"
