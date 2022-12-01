@@ -30,7 +30,7 @@ router.post('/', async function(req, res) {
             }
             return res.status(200).json({data: userData, token: token});
         }else{
-            return res.status(401).json({data: "Password salah"});
+            return res.status(401).json({data: "Password Anda salah"});
         }
     }else if (email){
         const valid = checkPassword(password, email.password);
@@ -43,11 +43,11 @@ router.post('/', async function(req, res) {
             }
             return res.status(200).json({data: userData, token: token});
         }else{
-            return res.status(401).json({data: "Password salah"});
+            return res.status(401).json({data: "Password Anda salah"});
         }
 
     }
-    return res.status(200).json({data: "No user on database"});
+    return res.status(200).json({data: "Couldn't find an account with that username/email"});
 });
 
 module.exports = router;
