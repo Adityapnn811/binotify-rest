@@ -23,7 +23,6 @@ function verifyJWT(req, res, next) {
     if (!token) return res.status(401).json({ auth: false, message: 'No token provided.' });
     // parse authorization headers
     const bearerToken = token.split(' ');
-    console.log(bearerToken)
     jwt.verify(bearerToken[1], jwtSecret, function(err, decoded) {
         if (err) return res.status(500).json({ auth: false, message: 'Failed to authenticate token.' });
         req.userId = decoded.id;
