@@ -25,6 +25,7 @@ router.post('/', async function(req, res) {
             const token = signJWT(user, res)
             const userData = {
                 user_id: user.user_id,
+                name: user.name,
                 username: user.username,
                 isAdmin: user.isAdmin
             }
@@ -38,6 +39,7 @@ router.post('/', async function(req, res) {
             const token = signJWT(email, res)
             const userData = {
                 user_id: email.user_id,
+                name: email.name,
                 username: email.username,
                 isAdmin: email.isAdmin
             }

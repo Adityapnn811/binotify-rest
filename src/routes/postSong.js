@@ -8,6 +8,8 @@ module.exports = async (req, res) => {
     try {
         await post(req, res);
 
+        console.log(req);
+
         if (req.file == undefined) {
             return res.status(400).send({
                 msg: "File not found/Wrong Filetype"

@@ -96,13 +96,13 @@ router.get('/:user_id/song', async function(req, res) {
 })
 
 // Get lagu punya dia sendiri
-router.get('/song', verifyJWT, async function(req, res) {
+router.get('/songs', verifyJWT, async function(req, res) {
     let user_id = req.userId; // ini nanti diganti sama jwt
-    let page = 1
-    if (req.query.page) {
-        page = parseInt(req.query.page)
-    }
-    const itemPerPage = 10;
+    // let page = 1
+    // if (req.query.page) {
+    //     page = parseInt(req.query.page)
+    // }
+    // const itemPerPage = 10;
     // Tambahin error unauthorized kalo user_id ga ada
     let lagu = await prisma.song.findMany({
         where: {
@@ -115,14 +115,16 @@ router.get('/song', verifyJWT, async function(req, res) {
             Audio_path: true
         }
     })
-    let totalPage = Math.ceil(lagu.length / itemPerPage);
-    if (page > totalPage) {
-        return res.status(404).json({error: "Page not found"});
-    }
-    let start = (page - 1) * itemPerPage;
-    let end = start + itemPerPage;
-    lagu = lagu.slice(start, end)
-    return res.status(200).json({data: lagu, totalPage, page});
+    // console.log(user_id);
+    // let totalPage = Math.ceil(lagu.length / itemPerPage);
+    // if (page > totalPage) {
+    //     return res.status(404).json({error: "Page not found"});
+    // }
+    // let start = (page - 1) * itemPerPage;
+    // let end = start + itemPerPage;
+    // lagu = lagu.slice(start, end)
+    // return res.status(200).json({data: lagu, totalPage, page});
+    return res.status(200).json({data: lagu});
 })
 
 module.exports = router
