@@ -30,13 +30,12 @@ router.get('/:page', verifyJWT, async function(req, res) {
             return res.status(500).json({data: []});
         }
         // paginate
-        const limit = 2;
+        const limit = 10;
         const offset = (page - 1) * limit;
         const total = data.length;
         const pages = Math.ceil(total / limit);
         const result = data.slice(offset, offset + limit);
         return res.status(200).json({data: result, total: total, pages: pages});
-        // return res.status(200).json({data});
     } catch (error) {
         console.log(error)
         return res.status(500).json({error: "Internal server error"});
