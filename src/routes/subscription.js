@@ -6,7 +6,8 @@ const axios = require('axios');
 const { verifyJWT } = require('../utils/auth');
 
 /* GET subscription requests listing. */
-router.get('/', verifyJWT, async function(req, res) {
+router.get('/:page', verifyJWT, async function(req, res) {
+    let { page } = req.params;
     try{
         const url = process.env.SOAP_URL + "/webservice/subscription"
         let payload = {
@@ -25,12 +26,17 @@ router.get('/', verifyJWT, async function(req, res) {
         let remoteResponse = await axios.post(url, args, headers);
         remoteResponse = await Parser.convertXMLToJSON(remoteResponse.data);
         const data = remoteResponse["S:Body"]["ns2:getSubscriptionReqResponse"]["return"]
-        console.log(data);
         if (!data) {
             return res.status(500).json({data: []});
         }
-        
-        return res.status(200).json({data});
+        // paginate
+        const limit = 2;
+        const offset = (page - 1) * limit;
+        const total = data.length;
+        const pages = Math.ceil(total / limit);
+        const result = data.slice(offset, offset + limit);
+        return res.status(200).json({data: result, total: total, pages: pages});
+        // return res.status(200).json({data});
     } catch (error) {
         console.log(error)
         return res.status(500).json({error: "Internal server error"});
