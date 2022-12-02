@@ -30,7 +30,7 @@ router.get('/:page', verifyJWT, async function(req, res) {
             return res.status(500).json({data: []});
         }
         // paginate
-        const limit = 10;
+        const limit = 5;
         const offset = (page - 1) * limit;
         const total = data.length;
         const pages = Math.ceil(total / limit);
