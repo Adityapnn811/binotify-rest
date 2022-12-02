@@ -3,13 +3,22 @@ const prisma = require('../prisma')
 
 module.exports = async (req, res) => {
     try {
-        const query = prisma.song.delete({
+        const deleteSong = await prisma.user.update({
             where: {
-                song_id: parseInt(req.params.id)
+                user_id: req.userId
+            },
+            data: {
+                Song: {
+                    delete: {
+                        song_id: parseInt(req.params.id)
+                    }
+                }
             }
+
         })
         res.status(200).send({
-            msg: 'Delete Success'
+            msg: 'Delete Success',
+            data: deleteSong
         })
     } catch (e) {
         res.status(500).send({
